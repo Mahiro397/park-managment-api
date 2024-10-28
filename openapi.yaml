@@ -1,0 +1,504 @@
+openapi: "3.0.3"
+
+info:
+  title: "Park Managment API"
+  version: "1.0.0"
+
+servers:
+  - url: "http://localhost:3000" # ローカル開発用のサーバーURL
+    description: "開発環境サーバー" # この開発サーバーに関する追加情報
+
+
+paths:
+  "/park":
+    get:
+      summary: "公園情報を全件取得"
+      description: "公園情報を全件取得します"
+      tags: ["park"]
+      deprecated: false
+
+      responses:
+        "200":
+          description: "Success operation"
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id : "1"
+                  name: "隅田公園"
+                  lon: 139.8035
+                  lat: 35.7102
+                  createdAt: "2024-10-06T14:30:00Z"
+        "400":
+          description: "不正なリクエスト。パラメータが無効です。"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "無効なパラメータが含まれています。"
+        
+        "404":
+          description: "リソースが見つかりません。"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "指定されたリソースが見つかりません。"
+        "500":
+          description: "サーバー内部エラー。何か問題が発生しました。"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "サーバーで問題が発生しました。"
+    post:
+      summary: "公園情報を登録"
+      description: "公園情報を登録します"
+      tags: ["park"]
+      deprecated: false
+
+      requestBody: # リクエストボディを定義
+        required: true # このリクエストでボディが必須
+        content:
+          application/json: # リクエストボディのメディアタイプ
+            schema: # リクエストボディの型を定義
+              type: object # リクエストボディの型: オブジェクト
+              properties: # オブジェクトのプロパティを定義
+                name: # プロパティ名を記述
+                  type: string # アイテム名の型: 文字列
+                  description: "公園名" # プロパティの説明
+                lon: # プロパティ名を記述
+                  type: number # アイテム説明の型: 文字列
+                  description: "経度" # プロパティの説明
+                lat: # プロパティ名を記述
+                  type: number # アイテム説明の型: 文字列
+                  description: "緯度" # プロパティの説明
+            example: # リクエストボディの例
+              name: "隅田公園"
+              lon: 139.8035
+              lat: 35.7102
+
+      responses:
+        "200":
+          description: "Success operation"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  id: 
+                    type: string 
+                    description: "公園id"
+                  name: 
+                    type: string 
+                    description: "公園名"
+                  lon: 
+                    type: number 
+                    description: "経度"
+                  lat: 
+                    type: number 
+                    description: "緯度"
+                  createdAt:
+                    type: string
+                    description: "作成日"
+                  
+                example:
+                  id : "1"
+                  name: "隅田公園"
+                  lon: 139.8035
+                  lat: 35.7102
+                  createdAt: "2024-10-06T14:30:00Z"
+        "400":
+          description: "不正なリクエスト。パラメータが無効です。"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "無効なパラメータが含まれています。"
+        
+        "404":
+          description: "リソースが見つかりません。"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "指定されたリソースが見つかりません。"
+        "500":
+          description: "サーバー内部エラー。何か問題が発生しました。"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "サーバーで問題が発生しました。"
+  "/park/{id}":
+    delete:
+      summary: "公園情報を削除"
+      description: "指定されたIDの公園情報を削除します"
+      tags: 
+        - "park"
+      deprecated: false
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: "削除する公園のID"
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "削除成功。公園情報が削除されました。"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "公園情報が正常に削除されました。"
+        "400":
+          description: "不正なリクエスト。パラメータが無効です。"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "無効なパラメータが含まれています。"
+        "404":
+          description: "公園情報が見つかりません。"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "指定されたIDの公園情報が見つかりません。"
+        "500":
+          description: "サーバー内部エラー。"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "サーバーで問題が発生しました。"
+
+      
+
+  "/post":
+      get:
+        summary: "タイムライン情報を取得"
+        description: "タイムライン情報を取得"
+        tags: ["post"]
+        deprecated: false
+        responses:
+          "200":
+            description: "Success operation"
+            content:
+              application/json:
+                schema:
+                  type: object
+                  example:
+                    id : "1"
+                    userId: "hnaorig"
+                    parkName: "隅田公園"
+                    coment: "ブランコが壊れている"
+                    img : "upload/gnagmp.img"
+                    lon: 139.8035
+                    lat: 35.7102
+                    createdAt: "2024-10-06T14:30:00Z"
+          "400": # HTTPステータスコード 400の場合の処理をこのセクションで定義
+            description: "不正なリクエスト。パラメータが無効です。" # この応答の説明
+      post:
+        summary: "post情報を登録"
+        description: "postを登録します"
+        tags: ["post"]
+        deprecated: false
+
+        requestBody:
+          required: true 
+          content:
+            application/json: 
+              schema:
+                type: object 
+                properties: 
+                  userId: 
+                    type: string 
+                    description: "userId" 
+                  parkName: 
+                    type: string 
+                    description: "公園名" 
+                  coment:
+                    type: string
+                    description: "コメント"
+                  img:
+                    type: string
+                    description: "画像パス"
+                  lon:
+                    type: number
+                    description: "経度"
+                  lat: 
+                    type: number 
+                    description: "緯度"
+              example: 
+                userId: "ganiuhatol"
+                parkName: "隅田公園"
+                coment: "滑り台が壊れていました。"
+                img : "upload/gnagmp.img"
+                lon: 139.8035
+                lat: 35.7102
+
+        responses:
+          "200":
+            description: "Success operation"
+            content:
+              application/json:
+                schema:
+                  type: object 
+                  properties: 
+                    id: 
+                      type: string
+                      description: "id" 
+                    userId: 
+                      type: string 
+                      description: "userId" 
+                    parkName: 
+                      type: string 
+                      description: "公園名" 
+                    coment:
+                      type: string
+                      description: "コメント"
+                    img:
+                      type: string
+                      description: "画像パス"
+                    lon: 
+                      type: number 
+                      description: "経度" 
+                    lat: 
+                      type: number 
+                      description: "緯度" 
+                    createdAt:
+                      type: string
+                      description: "作成日"
+                  example:
+                    id : "1"
+                    userId: "ganiuhatol"
+                    parkName: "隅田公園"
+                    coment: "滑り台が壊れていました。"
+                    img : "upload/gnagmp.img"
+                    lon: 139.8035
+                    lat: 35.7102
+                    createdAt: "2024-10-06T14:30:00Z"
+          "400":
+            description: "不正なリクエスト。パラメータが無効です。"
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      example: "無効なパラメータが含まれています。"
+          
+          "404":
+            description: "リソースが見つかりません。"
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      example: "指定されたリソースが見つかりません。"
+          "500":
+            description: "サーバー内部エラー。何か問題が発生しました。"
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      example: "サーバーで問題が発生しました。"
+  "/post/{postId}":
+      get:
+        summary: "postidを指定してpost情報を取得"
+        description: "posetidを指定してpost情報を取得"
+        tags: ["post"]
+        deprecated: false
+        responses:
+          "200":
+            description: "Success operation"
+            content:
+              application/json:
+                schema:
+                  type: object
+                  example:
+                    id : "1"
+                    userId: "hnaorig"
+                    parkName: "隅田公園"
+                    coment: "ブランコが壊れている"
+                    img : "upload/gnagmp.img"
+                    lon: 139.8035
+                    lat: 35.7102
+                    createdAt: "2024-10-06T14:30:00Z"
+          "400":
+            description: "不正なリクエスト。パラメータが無効です。"
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      example: "無効なパラメータが含まれています。"
+        
+          "404":
+            description: "リソースが見つかりません。"
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      example: "指定されたリソースが見つかりません。"
+          "500":
+            description: "サーバー内部エラー。何か問題が発生しました。"
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      example: "サーバーで問題が発生しました。"
+      delete:
+        summary: "post情報を削除"
+        description: "指定されたIDのpost情報を削除します"
+        tags: 
+          - "post"
+        deprecated: false
+        parameters:
+          - name: id
+            in: path
+            required: true
+            description: "削除するpostのID"
+            schema:
+              type: string
+        responses:
+          "200":
+            description: "削除成功。post情報が削除されました。"
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      example: "公園情報が正常に削除されました。"
+          "400":
+            description: "不正なリクエスト。パラメータが無効です。"
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      example: "無効なパラメータが含まれています。"
+          "404":
+            description: "公園情報が見つかりません。"
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      example: "指定されたIDの公園情報が見つかりません。"
+          "500":
+            description: "サーバー内部エラー。"
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      example: "サーバーで問題が発生しました。"
+
+  "/post/serach":
+      get:
+        summary: "公園指定でタイムラインを取得"
+        description: "公園指定でタイムラインを取得"
+        tags: ["post"]
+        deprecated: false
+        responses:
+          "200":
+            description: "Success operation"
+            content:
+              application/json:
+                schema:
+                  type: object
+                  example:
+                    id : "1"
+                    userId: "hnaorig"
+                    parkName: "隅田公園"
+                    coment: "ブランコが壊れている"
+                    img : "upload/gnagmp.img"
+                    lon: 139.8035
+                    lat: 35.7102
+                    createdAt: "2024-10-06T14:30:00Z"
+          "400":
+            description: "不正なリクエスト。パラメータが無効です。"
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      example: "無効なパラメータが含まれています。"
+          "404":
+            description: "公園情報が見つかりません。"
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      example: "指定されたIDの公園情報が見つかりません。"
+          "500":
+            description: "サーバー内部エラー。"
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      example: "サーバーで問題が発生しました。"

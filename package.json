@@ -1,0 +1,36 @@
+{
+  "name": "parkmanagement-api",
+  "description": "ParkManagement backend api",
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {
+    "wintest": "title %npm_config_id% && tsc && tsc-alias && node ./dist/index.js",
+    "test": "tsc && tsc-alias && node ./dist/index.js",
+    "build": "tsc && tsc-alias",
+    "winstart": "title %npm_config_id% && node ./dist/index.js",
+    "start": "node ./dist/index.js"
+  },
+  "prisma": {
+    "seed": "node dist/prisma/seed.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@prisma/client": "^5.20.0",
+    "@types/multer": "^1.4.12",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "multer": "^1.4.5-lts.1",
+    "prisma": "^5.20.0",
+    "tslog": "^4.9.3",
+    "uuid": "^10.0.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.7.5",
+    "@types/uuid": "^10.0.0",
+    "tsc-alias": "^1.8.10",
+    "typescript": "^5.6.3"
+  }
+}

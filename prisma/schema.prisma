@@ -1,0 +1,55 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Mysql DB Setting
+// datasource db {
+//   provider = "mysql"
+//   url      = env("DATABASE_URL")
+// }
+
+// SQLite DB Setting
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Post {
+  post_id    String   @id // post_idに変更し、UUIDを使用
+  user_id    String?
+  park_id    String // Parkテーブルとのリレーション
+  park       Park     @relation(fields: [park_id], references: [park_id])
+  comment    String
+  lon        Float?
+  lat        Float?
+  created_at DateTime @default(now())
+  images     Img[] // Postに関連するImgリレーション
+}
+
+model Img {
+  img_id       String   @id @default(uuid()) // img_idに変更し、UUIDを使用
+  post_id      String // Postテーブルとのリレーション
+  post         Post     @relation(fields: [post_id], references: [post_id])
+  img_path     String
+  is_processed Boolean  @default(false)
+  created_at   DateTime @default(now())
+}
+
+model Park {
+  park_id    String   @id @default(uuid()) // park_idに変更し、UUIDを使用
+  name       String
+  lon        Float?
+  lat        Float?
+  created_at DateTime @default(now())
+  posts      Post[] // Parkに関連するPostリレーション
+}
+
+model user {
+  line_id String @id
+}
