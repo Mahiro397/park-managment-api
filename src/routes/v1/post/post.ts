@@ -111,7 +111,7 @@ postRouter.get('/', async (req: Request, res: Response) => {
           ...post,
           images: post.images.map(image => ({
             ...image,
-            img: `${req.protocol}://${req.get('host')}/${image.img_path.replace(/\\/g, '/')}`, // バックスラッシュをスラッシュに置き換え
+            img: `https://${req.get('host')}/${image.img_path.replace(/\\/g, '/')}`, // バックスラッシュをスラッシュに置き換え
           })),
         }));
     
